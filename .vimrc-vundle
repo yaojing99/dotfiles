@@ -1,0 +1,186 @@
+set nocompatible              " required	关闭兼容模式
+filetype off                  " required	文件类型检测
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+"======================================插件开始======================================
+" Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
+
+Plugin 'vim-scripts/indentpython.vim'	"自动缩进
+Plugin 'vim-scripts/TaskList.vim'	"标记供以后修改
+ map <leader>td <Plug>TaskList
+
+Plugin 'Valloric/YouCompleteMe'		"代码自动补全
+
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"上面的第一行确保了在你完成操作之后，自动补全窗口不会消失，第二行则定义了“转到定义”的快捷方式。
+"注意下面的 python 解释器的路径要和编译 ycm_core 的时候使用的 python
+"解释器是相同的版本（2 或 3）
+let g:ycm_server_python_interpreter='/usr/bin/python'
+let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
+
+Plugin 'SirVer/ultisnips'		"快速输入代码片段
+Plugin 'python-mode/python-mode'
+Plugin 'scrooloose/syntastic'		"多语言语法检查/高亮
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+Plugin 'nvie/vim-flake8'		"PEP8代码风格检查
+Plugin 'jnurmine/Zenburn'		"配色方案
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'scrooloose/nerdtree'		"文件树形结构
+"map <F3> :NERDTreeMirror<CR>
+"map <F3> :NERDTreeToggle<CR>		"快捷键
+
+" 关闭NERDTree快捷键
+map <leader>t :NERDTreeToggle<CR>
+" 显示行号
+let NERDTreeShowLineNumbers=1
+let NERDTreeAutoCenter=1
+" 是否显示隐藏文件
+let NERDTreeShowHidden=0
+" 设置宽度
+let NERDTreeWinSize=31
+" 在终端启动vim时，共享NERDTree
+let g:nerdtree_tabs_open_on_console_startup=1
+" 忽略以下文件的显示
+let NERDTreeIgnore=['\.pyc','\~$','\.swp']
+" 显示书签列表
+let NERDTreeShowBookmarks=1
+
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'kien/ctrlp.vim'			"文件搜索
+Plugin 'vim-airline/vim-airline'	"状态栏增强
+Plugin 'vim-airline/vim-airline-themes'
+
+set laststatus=2 			"1为关闭底部状态栏 2为开启"
+"set t_Co=256      			"在windows中用xshell连接打开vim可以显示色彩
+let g:airline_powerline_fonts = 1	"安装字体后必须设置
+let g:airline#extensions#tabline#enabled = 1 "顶部tab显示"
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#formatter = 'default'
+nmap <tab> :bn<cr> "设置tab键映射"
+"设置切换Buffer快捷键"
+nnoremap <C-N> :bn<CR>
+nnoremap <C-P> :bp<CR>
+"主题
+"let g:airline_theme='bubblegum'
+"let g:airline_theme='molokai'
+"let g:airline_theme='murmur'
+let g:airline_theme='luna'
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+
+  " unicode symbols
+  let g:airline_left_sep = '»'
+  let g:airline_left_sep = '▶'
+  let g:airline_right_sep = '«'
+  let g:airline_right_sep = '◀'
+  let g:airline_symbols.crypt = '🔒'
+  let g:airline_symbols.linenr = '☰'
+  let g:airline_symbols.linenr = '␊'
+  let g:airline_symbols.linenr = '␤'
+  let g:airline_symbols.linenr = '¶'
+  let g:airline_symbols.maxlinenr = ''
+  let g:airline_symbols.maxlinenr = '㏑'
+  let g:airline_symbols.branch = '⎇'
+  let g:airline_symbols.paste = 'ρ'
+  let g:airline_symbols.paste = 'Þ'
+  let g:airline_symbols.paste = '∥'
+  let g:airline_symbols.spell = 'Ꞩ'
+  let g:airline_symbols.notexists = 'Ɇ'
+  let g:airline_symbols.whitespace = 'Ξ'
+
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = '☰'
+  let g:airline_symbols.maxlinenr = ''
+
+Plugin 'vim-ctrlspace/vim-ctrlspace'	"导航增强
+set hidden
+set showtabline=0
+
+Plugin 'sickill/vim-monokai'		"配色
+Plugin 'tomasr/molokai'
+"Plugin 'xiaomiao22/winmanager'		"侧边栏
+
+" All of your Plugins must be added before the following line
+"======================================插件结束=======================================
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+"這個檔案的雙引號 (") 是註解
+set hlsearch            "高亮度反白
+set backspace=2         "可隨時用倒退鍵刪除
+set autoindent          "自動縮排
+set ruler               "可顯示最後一列的狀態
+set showmode            "左下角那一列的狀態
+set nu                  "可以在每一列的最前面顯示行號啦！
+set bg=dark             "顯示不同的底色色調
+syntax on               "進行語法檢驗，顏色顯示。
+
+
+"光标十字定位和对齐线
+set cursorline
+set cursorcolumn
+ 
+"highlight CursorLine cterm=none ctermbg=236
+"highlight CursorColumn cterm=none ctermbg=236
+"highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+"highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+
+"编码
+let python_highlight_all=1
+"set fileencodings=utf8,cp936,gb18030,big5
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set encoding=utf-8
+
+call togglebg#map("<F5>")	"暗色调和轻色调
+if has('gui_running')
+	  set background=dark
+	  colorscheme solarized
+else
+	  colorscheme zenburn
+endif
+
+"colors solarized
+"colors zenburn
+"colors molokai
+"colors monokai
+
+""支持PEP8风格的缩进
+"au BufNewFile,BufRead *.py
+"au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/	 "标示不必要的空白字符
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match Error /\s\+$/	 "标示不必要的空白字符
+			 set tabstop=4	"所有的Tab和缩进为4个空格
+			 set softtabstop=4	"按退格键可以一次删掉4个空格
+			 set shiftwidth=4	"《和》移动时的宽度为4
+			 set textwidth=79
+			 set expandtab	"使用空格来替换Tab
+			 set autoindent
+			 set fileformat=unix
+
+"这些设置将让Vim中的Tab键就相当于4个标准的空格符，确保每行代码长度不超过80个字符，并且会以unix格式储存文件，避免在推送到Github或分享给其他用户时出现文件转换问题。
+
+set pastetoggle=<F9>		"粘贴不换行问题的解决方法
